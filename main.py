@@ -8,32 +8,26 @@ screen.addshape(image)
 t.shape(image)
 
 data = pd.read_csv("50_states.csv")
+correct_answers = []
 
 
+while len(correct_answers) < 50:
+    answer_state = screen.textinput(title=f'{len(correct_answers)}/50 States Correct',
+                                    prompt="What's another state's name?").title()
+    state_list = data['state'].to_list()
 
-answer_state = screen.textinput(title='Guess the State', prompt="What's another state's name?").title()
+    if answer_state in state_list:
+        state_row = data[data.state == answer_state]
 
-# check if answer_state is in 50 states.csv
-state_series = data['state']
+        state_text = t.Turtle()
+        state_text.hideturtle()
+        state_text.penup()
+        state_text.goto(int(state_row.x), int(state_row.y))
+        # state_text.write(f"{answer_state}", align='center', font=("Arial", 10, "normal"))
+        state_text.write(state_row.state.item())
 
-for state in state_series:
-    if answer_state == state:
-        # Write correct guess onto map
-        state_row = data[data.state == state]
-        x_coord = state_row.y
-        y_coord = state_row.x
-        print(int(x_coord))
-        print(int(y_coord))
+        correct_answers.append(answer_state)
 
-        state_text = t
-        state_text.goto(x_coord, y_coord)
-        state_text.write(f"{state}", align='center', font=("Arial", 10, "normal"))
-
-# Use loop to allow constant guessing
-
-# Record correct guesses in a list
-
-# Keep track of score
 
 
 t.mainloop()
