@@ -16,6 +16,16 @@ while len(correct_answers) < 50:
                                     prompt="What's another state's name?").title()
     state_list = data['state'].to_list()
 
+    if answer_state == "Exit":
+        missed_states_list = []
+        for state in state_list:
+            if state not in correct_answers:
+                missed_states_list.append(state)
+
+        df = pd.DataFrame(missed_states_list)
+        df.to_csv("missed_states.csv")
+        break
+
     if answer_state in state_list:
         state_row = data[data.state == answer_state]
 
@@ -26,8 +36,7 @@ while len(correct_answers) < 50:
         # state_text.write(f"{answer_state}", align='center', font=("Arial", 10, "normal"))
         state_text.write(state_row.state.item())
 
-        correct_answers.append(answer_state)
+        correct_answers.append(answer_state.title())
 
+# States to learn.csv
 
-
-t.mainloop()
